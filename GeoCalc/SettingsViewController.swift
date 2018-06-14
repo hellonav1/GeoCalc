@@ -10,27 +10,42 @@ import UIKit
 
 protocol SettingsSelectionViewControllerDelegate
 {
-    func indicateDistanceSelection(dist:String)
+    func indicateSelection(dist:String, bear:String)
 }
 
 class SettingsViewController: UIViewController {
 
-    @IBOutlet weak var distancePicker: UIPickerView!
-    var distanceData : [String] = [String]()
-    var dSelection : String = " miles"
-    var dDelegate : SettingsSelectionViewControllerDelegate?
+    @IBOutlet weak var picker: UIPickerView!
+    var data : [String] = [String]()
+    var dSelection : String = ""
+    var bSelection : String = ""
+    var delegate : SettingsSelectionViewControllerDelegate?
+    
+    var orientation : String = ""
+    
+    
     
     @IBOutlet weak var distanceField: UILabel!
     
-    @IBOutlet weak var bearingPicker: UIPickerView!
+    @IBOutlet weak var bearingField: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton =  true
+        picker.isHidden = true
         
-        self.distanceData = [" miles", " kilometers"]
-        self.distancePicker.delegate = self
-        self.distancePicker.dataSource = self
+        let tapDistance = UITapGestureRecognizer(target: self, action: #selector(self.distanceTapped))
+        self.distanceField.addGestureRecognizer(tapDistance)
+        
+        let tapBearing = UITapGestureRecognizer(target: self, action: #selector(self.bearingTapped))
+        self.bearingField.addGestureRecognizer(tapBearing)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.hidePicker))
+        self.view.addGestureRecognizer(tap)
+        
+        
+        self.picker.delegate = self
+        self.picker.dataSource = self
 
         // Do any additional setup after loading the view.
     }
@@ -39,13 +54,48 @@ class SettingsViewController: UIViewController {
     @IBAction func savePressed(_ sender: Any) {
        
         super.viewWillDisappear(true)
-        if let d = self.dDelegate
+        if let d = self.delegate
         {
-            d.indicateDistanceSelection(dist: dSelection)
+            d.indicateSelection(dist: dSelection, bear:bSelection)
         }
         
         self.navigationController?.popViewController(animated: true)
     }
+    
+    func getOrientation() -> String
+    {
+        return orientation
+    }
+    
+    @objc func distanceTapped(sender: UITapGestureRecognizer)
+    {
+        print("gesture recognizer tapped")
+        self.data = ["Miles","Kilometers"]
+        self.picker.reloadAllComponents()
+        self.picker.isHidden = false
+        self.orientation = "distance"
+        
+        
+    }
+    
+    @objc func bearingTapped(sender: UITapGestureRecognizer)
+    {
+        print("gesture recognizer tapped")
+        self.picker.isHidden = false
+        self.data = ["Degrees", "Mils"]
+        self.picker.reloadAllComponents()
+        self.picker.isHidden = false
+        self.orientation = "bearing"
+        
+        
+        
+    }
+    
+    @objc func hidePicker(sender: UITapGestureRecognizer)
+    {
+        self.picker.isHidden = true
+    }
+    
     @IBAction func cancelPressed(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
             }
@@ -56,6 +106,8 @@ class SettingsViewController: UIViewController {
     }
     
 
+    
+ 
     /*
     // MARK: - Navigation
 
@@ -65,6 +117,9 @@ class SettingsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    
 
 }
 
@@ -76,16 +131,28 @@ extension SettingsViewController : UIPickerViewDataSource, UIPickerViewDelegate
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return distanceData.count
+        return data.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.distanceData[row]
+        return self.data[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        distanceField.text = self.distanceData[row]
-        self.dSelection = self.distanceData[row]
+        let orientation = getOrientation()
+        
+        if(orientation == "distance")
+        {
+            distanceField.text = self.data[row]
+            self.dSelection = self.data[row]
+        }
+        
+        else if(orientation == "bearing")
+        {
+            bearingField.text = self.data[row]
+            self.bSelection = self.data[row]
+            
+        }
     }
 }
 

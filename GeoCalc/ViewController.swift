@@ -10,10 +10,33 @@ import UIKit
 
 class ViewController: UIViewController, SettingsSelectionViewControllerDelegate
 {
+    var distUnits:String = "miles"
+    var bearUnits:String = "degrees"
     
-  func indicateDistanceSelection(dist: String) {
-    distanceField.text = dist;
+    func indicateSelection(dist: String, bear: String) {
+        if(dist == "" && bear == "")
+        {
+            
+        }
+        else if(dist == "" && bear != "")
+        {
+            bearUnits = bear;
+            recalculate()
+        }
+        else if(dist != "" && bear == "")
+        {
+            distUnits = dist;
+            recalculate()
+        }
+        else
+        {
+        distUnits = dist;
+        bearUnits = bear;
+        recalculate()
+        }
     }
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -21,7 +44,7 @@ class ViewController: UIViewController, SettingsSelectionViewControllerDelegate
         {
             if let dest = segue.destination as? SettingsViewController
             {
-                dest.dDelegate = self
+                dest.delegate = self
             }
         }
     }
@@ -90,6 +113,10 @@ class ViewController: UIViewController, SettingsSelectionViewControllerDelegate
             
             
         }
+        else
+        {
+            print("Please enter valid values for all fields")
+        }
         
     }
     
@@ -103,11 +130,16 @@ class ViewController: UIViewController, SettingsSelectionViewControllerDelegate
         let a = sin(deltaP/2)*sin(deltaP/2) + cos(degreesToRadians(degree: latitude1))*cos(degreesToRadians(degree: latitude2))*sin(deltaL/2)*sin(deltaL/2)
         let c = 2*atan2(sqrt(a), sqrt(1-a))
         
-        let d = radius * c
+        var d = radius * c
+        
+        if(distUnits == "Kilometers")
+        {
+            d = d*1.60934
+        }
         
         let finalD = roundTo(num: d, places: 2)
         
-        let dString = String(finalD) + " miles"
+        let dString = String(finalD) + " " + distUnits
         
         return dString
     }
@@ -121,9 +153,14 @@ class ViewController: UIViewController, SettingsSelectionViewControllerDelegate
         
         bearing = (bearing + 360.0).truncatingRemainder(dividingBy: 360.0)
         
+        if(bearUnits == "Mils")
+        {
+            bearing = bearing*17.777778
+        }
+        
         let finalB = roundTo(num: bearing, places: 2)
         
-        let bearingString = String(finalB) + " degrees"
+        let bearingString = String(finalB) + " " + bearUnits
         
         return bearingString
     }
@@ -176,6 +213,11 @@ class ViewController: UIViewController, SettingsSelectionViewControllerDelegate
     {
         self.view.endEditing(true)
         
+    }
+    
+    func recalculate()
+    {
+        calculatePressed(self)
     }
 }
 

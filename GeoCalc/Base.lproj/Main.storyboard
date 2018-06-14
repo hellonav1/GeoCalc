@@ -116,7 +116,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Settings"/>
                                 <connections>
-                                    <segue destination="QPy-nZ-dVQ" kind="show" id="ahb-Y2-pov"/>
+                                    <segue destination="QPy-nZ-dVQ" kind="show" identifier="chooseSettings" id="ahb-Y2-pov"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -159,15 +159,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKJ-rt-8WL">
-                                <rect key="frame" x="294" y="77" width="40" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Degrees" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a8G-5Z-z7E">
-                                <rect key="frame" x="294" y="106" width="65" height="21"/>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKJ-rt-8WL">
+                                <rect key="frame" x="270" y="78" width="89" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -177,10 +170,13 @@
                                 <rect key="frame" x="0.0" y="267" width="375" height="162"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g04-hj-86k">
-                                <rect key="frame" x="0.0" y="505" width="375" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pickerView>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Degrees" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a8G-5Z-z7E">
+                                <rect key="frame" x="270" y="107" width="89" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="1e8-KZ-3A0"/>
@@ -198,13 +194,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bearingPicker" destination="g04-hj-86k" id="fjt-o3-hsh"/>
-                        <outlet property="distancePicker" destination="bOO-Ah-r27" id="iZl-Pq-4Og"/>
+                        <outlet property="bearingField" destination="a8G-5Z-z7E" id="ysr-Pn-jQO"/>
+                        <outlet property="distanceField" destination="JKJ-rt-8WL" id="p5h-5q-cpM"/>
+                        <outlet property="picker" destination="bOO-Ah-r27" id="iZl-Pq-4Og"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ArQ-Ed-UGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1535" y="-36"/>
+            <point key="canvasLocation" x="1533.5999999999999" y="-36.431784107946029"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="V5l-uQ-fHq">
